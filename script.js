@@ -233,6 +233,9 @@
   const heroHeadline = $('.hero__headline');
   const heroBelow = $('.hero__below');
   const heroCue = $('.hero__cue');
+  const heroSound = $('.sound');
+  // The scroll cue is a button: it carries you through the opening animation
+  heroCue.addEventListener('click', () => scrollTo({ top: hero.offsetTop + hero.offsetHeight - innerHeight, behavior: 'smooth' }));
   const heroProbe = $('.hero__probe');
   const logo = $('.top__logo');
   const topRight = $('.top__right');
@@ -253,7 +256,8 @@
       heroBelow.style.opacity = b;
       heroBelow.style.transform = `translate3d(0, ${(1 - b) * 24}px, 0)`;
       heroBelow.style.pointerEvents = b > 0.6 ? '' : 'none';
-      heroCue.style.opacity = 1 - clamp(p / 0.05);
+      const cue = 1 - clamp(p / 0.05);
+      [heroCue, heroSound].forEach(b => { b.style.opacity = cue; b.style.pointerEvents = cue > 0.5 ? '' : 'none'; b.tabIndex = cue > 0.5 ? 0 : -1; });
       // Logo travels from top-centre (on the image) to the top-left of the header bar
       const w = logo.offsetWidth;
       const s = 1 + (1 - e) * 0.55;
