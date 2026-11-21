@@ -129,18 +129,16 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 
 /* Sound toggle: bottom-left of the landing image */
 .sound { display: none; }
-.js .sound { display: inline-flex; align-items: center; gap: 10px; position: absolute; left: clamp(12px, 2.5vw, 32px); bottom: clamp(18px, 3.2vh, 34px); z-index: 4; height: 44px; padding: 0 18px 0 16px; border-radius: 999px; border: 1.5px solid rgba(255, 250, 236, 0.85); background: rgba(24, 36, 19, 0.42); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: #FFFAEC; font: inherit; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.01em; white-space: nowrap; cursor: pointer; transition: background 0.25s, color 0.25s; }
-.sound:hover, .sound:focus-visible { background: #FFFAEC; color: var(--green-deep); }
-.sound__icon { width: 20px; height: 20px; flex: none; }
+.js .sound { display: grid; place-items: center; position: absolute; left: clamp(12px, 2.5vw, 32px); bottom: clamp(18px, 3.2vh, 34px); z-index: 4; width: 48px; height: 48px; padding: 0; border-radius: 50%; border: 0; background: #F6E6C4; color: var(--ink); box-shadow: 0 4px 14px rgba(44, 43, 50, 0.22); cursor: pointer; transition: background 0.25s, transform 0.25s; }
+.sound:hover, .sound:focus-visible { background: #FFFAEC; transform: scale(1.06); }
+.sound__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.sound__icon { width: 22px; height: 22px; }
 .sound__wave { opacity: 0; }
 .sound[data-state="on"] .sound__x { opacity: 0; }
 .sound[data-state="on"] .sound__wave { opacity: 1; animation: sound-wave 1.8s ease-in-out infinite; }
 .sound[data-state="on"] .sound__wave + .sound__wave { animation-delay: 0.3s; }
 @keyframes sound-wave { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
-@media (max-width: 760px) {
-  .js .sound { width: 44px; padding: 0; justify-content: center; }
-  .sound__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-}
+@media (max-width: 760px) { .js .sound { width: 44px; height: 44px; } }
 .js .hero { height: calc(var(--vh) * 230); }
 .js .hero__stage { position: sticky; top: 0; }
 @media (max-width: 760px) {
