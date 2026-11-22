@@ -82,24 +82,31 @@ a.btn:hover { transform: translateY(-2px); }
 .top__logo { position: relative; display: block; transform-origin: left center; transform: translate3d(var(--lx, 0px), var(--ly, 0px), 0) scale(var(--ls, 1)); will-change: transform; }
 .top__logo img { width: clamp(96px, 8.6vw, 128px); height: auto; }
 .top__right { position: relative; display: flex; align-items: center; gap: 10px; opacity: var(--bar, 1); }
-.top__nav { display: flex; gap: 2px; }
-.top__nav a { text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; transition: background 0.2s, color 0.2s; }
-.top__nav a:hover { background: var(--ink); color: var(--paper); }
-.lang { display: inline-flex; gap: 2px; padding: 3px; border: 1.5px solid var(--ink); border-radius: 999px; }
-.lang button { font: inherit; font-size: 0.8rem; font-weight: 500; line-height: 1.2; padding: 7px 12px; border: 0; border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; transition: background 0.25s, color 0.25s; }
-.lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.top__nav { display: flex; }
+.top__nav a { position: relative; z-index: 1; text-decoration: none; font-size: 0.82rem; font-weight: 500; line-height: 1.2; padding: 8px 14px; border-radius: 999px; color: rgba(44, 43, 50, 0.6); transition: color 0.3s; }
+.top__nav a:hover, .top__nav a.is-current { color: var(--ink); }
+.top__nav a.is-current { text-shadow: 0 0 0.6px var(--ink); }
+/* Glass tabs (main nav and language switch): a recessed track with a glass lens that slides over the current item */
+.lang, .top__nav { position: relative; gap: 2px; padding: 4px; border-radius: 999px; background: rgba(44, 43, 50, 0.1); box-shadow: inset 0 1px 3px rgba(44, 43, 50, 0.22), inset 0 0 0 1px rgba(44, 43, 50, 0.08), 0 1px 0 rgba(255, 255, 255, 0.7); }
+.lang { display: inline-flex; }
+.lang button { position: relative; z-index: 1; font: inherit; font-size: 0.8rem; font-weight: 500; line-height: 1.2; padding: 8px 14px; border: 0; border-radius: 999px; background: transparent; color: rgba(44, 43, 50, 0.55); cursor: pointer; transition: color 0.3s; }
+.lang button[aria-pressed="true"] { color: var(--ink); text-shadow: 0 0 0.6px var(--ink); }
+.lang button:hover { color: var(--ink); }
+.tab-lens { position: absolute; left: 0; top: 4px; bottom: 4px; width: 0; border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.tab-lens.is-placed { opacity: 1; }
+.tab-lens.is-ready { transition: opacity 0.3s, transform 0.5s cubic-bezier(.3, 1.45, .45, 1), width 0.5s cubic-bezier(.3, 1.45, .45, 1); }
 @media (max-width: 860px) { .top__nav { display: none; } }
 
 /* ---------- Floating apply button ---------- */
-.apply-fab { position: fixed; right: clamp(12px, 2.5vw, 32px); bottom: clamp(12px, 2.5vw, 28px); z-index: 60; width: clamp(128px, 13vw, 176px); aspect-ratio: 230 / 106; animation: fab-float 3.2s ease-in-out infinite; }
+/* The artwork carries its own tap animation and a little padding for it, hence the tighter offsets */
+.apply-fab { position: fixed; right: clamp(6px, 2vw, 25px); bottom: clamp(2px, 1.6vw, 14px); z-index: 60; width: clamp(139px, 14.1vw, 191px); aspect-ratio: 250 / 130; }
 .apply-fab__in { position: absolute; inset: 0; transition: transform 0.3s cubic-bezier(.2,.8,.2,1); filter: drop-shadow(0 8px 16px rgba(44, 43, 50, 0.2)); }
-.apply-fab:hover .apply-fab__in { transform: scale(1.07) rotate(-2deg); }
+.apply-fab:hover .apply-fab__in { transform: translateY(-3px) scale(1.03); }
 .apply-fab img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity 0.35s ease; }
 /* Rust artwork by default; script.js adds .fab-on-dark while the button is over a dark section */
 .apply-fab__white { opacity: 0; }
 body.fab-on-dark .apply-fab__white { opacity: 1; }
 body.fab-on-dark .apply-fab__rust { opacity: 0; }
-@keyframes fab-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-7px) rotate(-1.2deg); } }
 
 /* ---------- 1. Hero ---------- */
 /* Default (no JS / reduced motion) is the framed "first scroll" layout; JS scrubs to it from full-bleed. */
@@ -118,13 +125,31 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 @keyframes ward-out { to { transform: translateY(-110%); opacity: 0; } }
 @keyframes ward-in { from { transform: translateY(110%); opacity: 0; } }
 .hero__btns { display: flex; gap: 8px; }
+/* ---------- Liquid glass ----------
+   A thick lens: bright rim, soft inner shading, and two glints (one rainbow, one white)
+   that orbit the edge. script.js adds real refraction of whatever is behind it in
+   Chromium browsers; elsewhere the lens falls back to a frosted blur. */
+@property --glint { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.glass { isolation: isolate; background: linear-gradient(160deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0.16)); -webkit-backdrop-filter: blur(7px) saturate(1.6); backdrop-filter: blur(7px) saturate(1.6); box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(255, 255, 255, 0.4), inset 0 0 9px 2px rgba(255, 255, 255, 0.24), inset 0 -11px 14px -9px rgba(20, 30, 16, 0.22), 0 6px 18px rgba(20, 30, 16, 0.26), 0 1px 3px rgba(20, 30, 16, 0.28); }
+.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; background: conic-gradient(from var(--glint), transparent 0 7%, rgba(255, 110, 110, 0.9) 10%, rgba(255, 226, 120, 0.95) 13%, rgba(120, 255, 190, 0.9) 16%, rgba(120, 170, 255, 0.95) 19%, rgba(205, 135, 255, 0.8) 22%, transparent 26% 56%, rgba(255, 255, 255, 0.95) 61%, rgba(160, 222, 255, 0.8) 65%, transparent 70% 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: glint 7s linear infinite; }
+@keyframes glint { to { --glint: 360deg; } }
+
+/* Glass finish for buttons: each keeps its own colour and gains a lens-like sheen, a bright
+   rim, soft inner shading and the same orbiting glints as the glass lens. */
+.btn, .seg button[aria-checked="true"] { position: relative; isolation: isolate; }
+.btn, .js .sound, .seg button[aria-checked="true"] { background-image: linear-gradient(168deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0.14)); box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.62), inset 0 -2px 3px rgba(255, 255, 255, 0.22), inset 0 0 8px 1px rgba(255, 255, 255, 0.14), inset 0 -10px 12px -9px rgba(20, 30, 16, 0.26), 0 6px 16px rgba(20, 30, 16, 0.18), 0 1px 3px rgba(20, 30, 16, 0.2); }
+.btn--ghost { -webkit-backdrop-filter: blur(8px) saturate(1.5); backdrop-filter: blur(8px) saturate(1.5); }
+.btn::before, .js .sound::before, .seg button[aria-checked="true"]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; background: conic-gradient(from var(--glint), transparent 0 7%, rgba(255, 110, 110, 0.9) 10%, rgba(255, 226, 120, 0.95) 13%, rgba(120, 255, 190, 0.9) 16%, rgba(120, 170, 255, 0.95) 19%, rgba(205, 135, 255, 0.8) 22%, transparent 26% 56%, rgba(255, 255, 255, 0.95) 61%, rgba(160, 222, 255, 0.8) 65%, transparent 70% 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: glint 9s linear infinite; }
+.btn::before { inset: -2px; }
+.chip { box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.6), inset 0 -8px 10px -8px rgba(20, 30, 16, 0.2), 0 3px 10px rgba(20, 30, 16, 0.12); }
+
 .hero__cue { display: none; }
 .js .hero__cue { display: flex; position: absolute; left: 50%; bottom: clamp(18px, 3.2vh, 34px); transform: translateX(-50%); z-index: 4; flex-direction: column; align-items: center; gap: 10px; padding: 0; border: 0; background: none; cursor: pointer; color: #FFFAEC; font: inherit; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.22em; text-indent: 0.22em; text-transform: uppercase; text-shadow: 0 1px 10px rgba(0,0,0,0.6); }
-.hero__cue i { position: relative; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid #FFFAEC; background: rgba(24, 36, 19, 0.42); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: background 0.25s, color 0.25s; }
-.hero__cue i::after { content: ""; position: absolute; inset: -1.5px; border-radius: 50%; border: 1.5px solid #FFFAEC; animation: cue-ring 2.2s ease-out infinite; }
-.hero__cue svg { width: 22px; height: 22px; animation: cue-bob 1.6s ease-in-out infinite; }
-.hero__cue:hover i, .hero__cue:focus-visible i { background: #FFFAEC; color: var(--green-deep); }
-@keyframes cue-ring { 0% { transform: scale(1); opacity: 0.8; } 80%, 100% { transform: scale(1.55); opacity: 0; } }
+.hero__cue i { position: relative; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; animation: lens-wobble 3.4s cubic-bezier(.3, 1.5, .5, 1) infinite; transition: scale 0.35s cubic-bezier(.3, 1.6, .5, 1); }
+.hero__cue svg { position: relative; width: 22px; height: 22px; filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45)); animation: cue-bob 1.6s ease-in-out infinite; }
+.hero__cue:hover i, .hero__cue:focus-visible i { scale: 1.1; }
+/* Every few seconds the lens squashes and settles, like a drop of water being nudged */
+@keyframes lens-wobble { 0%, 58%, 100% { transform: scale(1, 1); } 66% { transform: scale(1.1, 0.88); } 76% { transform: scale(0.93, 1.07); } 86% { transform: scale(1.04, 0.97); } 94% { transform: scale(0.99, 1.01); } }
 @keyframes cue-bob { 0%, 100% { transform: translateY(-3px); } 50% { transform: translateY(4px); } }
 
 /* Sound toggle: bottom-left of the landing image */
@@ -222,8 +247,8 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 .how__intro > p:not(.eyebrow) { max-width: 32ch; margin: 1.3rem auto 2rem; font-size: 1rem; }
 .how__intro .eyebrow { color: var(--green-deep); }
 .how__orb { position: absolute; border-radius: 50%; object-fit: cover; will-change: transform; box-shadow: 0 10px 30px rgba(44,43,50,0.18); }
-.how__orb--a { width: clamp(84px, 11vw, 168px); aspect-ratio: 1; left: 7vw; bottom: 14%; }
-.how__orb--b { width: clamp(72px, 9vw, 136px); aspect-ratio: 1; right: 8vw; bottom: 30%; }
+.how__orb--a { width: clamp(126px, 16.5vw, 252px); aspect-ratio: 1; left: 7vw; bottom: 14%; }
+.how__orb--b { width: clamp(108px, 13.5vw, 204px); aspect-ratio: 1; right: 8vw; bottom: 30%; }
 .how__panel { background: var(--ink); color: var(--cream); border-radius: 36px 36px 0 0; margin-top: -40px; position: relative; padding: clamp(40px, 8vh, 90px) 0 clamp(70px, 12vh, 130px); }
 .step { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(16px, 3vw, 44px); padding: clamp(26px, 4.5vh, 46px) 0; border-bottom: 1px solid rgba(255, 239, 214, 0.2); }
 .step:first-child { border-top: 1px solid rgba(255, 239, 214, 0.2); }
@@ -248,7 +273,8 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
   .how__panel { overflow: hidden; }
   .step__num { width: 36px; font-size: 0.75rem; }
   .asks { grid-template-columns: 1fr; }
-  .how__orb--a { left: 4vw; bottom: 5%; }
+  .how__intro { padding-bottom: 210px; }
+  .how__orb--a { left: 4vw; bottom: 4%; }
   .how__orb--b { right: 4vw; bottom: 9%; }
 }
 
@@ -360,6 +386,6 @@ html[lang="kn"] .ward { margin-inline: 0.5em; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee__track { animation-duration: 240s; }
-  .hero__cue i::after, .hero__cue svg, .sound__wave { animation: none !important; }
-  .apply-fab { animation: none; }
+  .hero__cue i, .hero__cue svg, .sound__wave, .glass::before, .btn::before, .sound::before, .seg button::before { animation: none !important; }
+  .tab-lens.is-ready { transition: opacity 0.3s; }
 }

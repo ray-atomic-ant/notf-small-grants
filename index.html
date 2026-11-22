@@ -13,8 +13,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;700&family=Noto+Sans+Kannada:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="images/hero.jpg">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" as="image" href="images/hero.jpg?v=10">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
   <a class="skip" href="#about">Skip to content</a>
@@ -26,14 +26,16 @@
     </a>
     <div class="top__right">
       <nav class="top__nav" aria-label="Main">
+        <span class="tab-lens glass" aria-hidden="true"></span>
         <a href="#about" data-i18n="nav.about">About</a>
         <a href="#who" data-i18n="nav.who">Who it's for</a>
         <a href="#how" data-i18n="nav.how">How it works</a>
         <a href="#faq" data-i18n="nav.faq">FAQs</a>
       </nav>
       <div class="lang" role="group" aria-label="Language">
+        <span class="tab-lens glass" aria-hidden="true"></span>
         <button type="button" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" data-lang="kn" lang="kn" aria-pressed="false">ಕನ್ನಡ</button>
+        <button type="button" data-lang="kn" lang="kn" aria-pressed="false" aria-label="ಕನ್ನಡ" title="ಕನ್ನಡ">ಕ</button>
       </div>
     </div>
   </header>
@@ -41,8 +43,8 @@
   <!-- Floating Apply button (asset swaps white/rust by background) -->
   <a class="apply-fab" href="#apply" aria-label="Apply now">
     <span class="apply-fab__in">
-      <img class="apply-fab__white" src="images/apply-white.svg" alt="" width="230" height="106">
-      <img class="apply-fab__rust" src="images/apply-rust.svg" alt="" width="230" height="106">
+      <img class="apply-fab__white" src="images/apply-white.svg?v=10" alt="" width="250" height="130">
+      <img class="apply-fab__rust" src="images/apply-rust.svg?v=10" alt="" width="250" height="130">
     </span>
   </a>
 
@@ -52,7 +54,7 @@
       <div class="hero__stage">
         <div class="hero__probe" aria-hidden="true"></div>
         <div class="hero__card">
-          <img src="images/hero.jpg" alt="Illustration of a Bengaluru neighbourhood street with a park, flower stall, bus stop and cycle lane" fetchpriority="high">
+          <img src="images/hero.jpg?v=10" alt="Illustration of a Bengaluru neighbourhood street with a park, flower stall, bus stop and cycle lane" fetchpriority="high">
           <h1 class="hero__headline" data-i18n="hero.h1">The fix is local</h1>
         </div>
         <div class="hero__below">
@@ -62,7 +64,7 @@
             <a class="btn btn--line btn--sm" href="#how" data-i18n="hero.how">How it works</a>
           </div>
         </div>
-        <button class="hero__cue" type="button"><span data-i18n="hero.scroll">Scroll</span><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 12.5 12 19l6.5-6.5"/></svg></i></button>
+        <button class="hero__cue" type="button"><span data-i18n="hero.scroll">Scroll</span><i class="glass" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 12.5 12 19l6.5-6.5"/></svg></i></button>
         <button class="sound" type="button" data-state="idle" aria-pressed="false"><svg class="sound__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.2L12 18.5v-13L7.2 9.5H4z" fill="currentColor"/><path class="sound__wave" d="M15.5 9.2a4 4 0 0 1 0 5.6"/><path class="sound__wave" d="M18.2 6.6a7.6 7.6 0 0 1 0 10.8"/><path class="sound__x" d="M16 9.5l5 5M21 9.5l-5 5"/></svg><span class="sound__label">Tap for sound</span></button>
       </div>
     </section>
@@ -140,7 +142,7 @@
         <p class="eyebrow" data-i18n="how.eyebrow">How it works</p>
         <h2 data-i18n="how.h2">Rolling call. Six weeks, give or take.</h2>
         <p data-i18n="how.p">Applications are reviewed as they come in. No deadline to chase.</p>
-        <a class="btn btn--dark" href="#apply" data-i18n="how.apply">Apply now</a>
+        <a class="btn btn--rust" href="#apply" data-i18n="how.apply">Apply now</a>
       </div>
 
       <div class="how__panel">
@@ -311,8 +313,8 @@
     <p class="wrap foot__legal">© 2026 Neighbourhoods of the Future · Part of PDGI (People's Digital Goods &amp; Infrastructure)<br><a href="https://www.notf.in/" target="_blank" rel="noopener">notf.in</a> · <a href="mailto:notf.blr@socratusfoundation.in">notf.blr@socratusfoundation.in</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
 
-  <script src="i18n-kn.js"></script>
-  <script src="script.js"></script>
-  <script src="ambience.js"></script>
+  <script src="i18n-kn.js?v=10"></script>
+  <script src="script.js?v=10"></script>
+  <script src="ambience.js?v=10"></script>
 </body>
 </html>

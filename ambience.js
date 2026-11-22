@@ -208,8 +208,11 @@
     try { localStorage.setItem('notf-sound', muted ? 'off' : 'on'); } catch (err) {}
     update();
   });
-  document.addEventListener('keydown', e => { if (!btn.contains(e.target)) unlock(); });
-  document.addEventListener('touchend', e => { if (!btn.contains(e.target)) unlock(); }, { passive: true });
+  ['keydown', 'pointerdown', 'mousedown', 'touchend'].forEach(type =>
+    document.addEventListener(type, e => { if (!btn.contains(e.target)) unlock(); }, { passive: true }));
+  // Try to start as soon as the page opens. Browsers that allow it play straight away;
+  // the rest hold the sound back until the visitor's first tap, click or key press.
+  unlock();
 
   let wasTop = atTop();
   addEventListener('scroll', () => { const t = atTop(); if (t !== wasTop) { wasTop = t; update(); } }, { passive: true });

@@ -42,6 +42,116 @@
   };
   $$('.lang button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
 
+  /* ---------- Liquid-glass lens ----------
+     styles.css draws the lens. Here: (1) real refraction, which bends whatever is behind the
+     rim of the lens (Chromium only; other browsers keep the frosted fallback), and (2) the
+     language lens sliding, squeezing and settling between EN and Kannada. */
+  const canRefract = /Chrome\//.test(navigator.userAgent);
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  let lensDefs = null;
+  const refract = (el, id, strength) => {
+    const w = el.offsetWidth, h = el.offsetHeight;
+    if (!canRefract || !w || !h) return;
+    if (!lensDefs) {
+      const svg = document.createElementNS(SVG_NS, 'svg');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+      lensDefs = svg.appendChild(document.createElementNS(SVG_NS, 'defs'));
+      document.body.appendChild(svg);
+    }
+    // Displacement map: red pushes pixels sideways, green up and down. The middle is neutral,
+    // so only a band near the rim bends, the way a thick lens distorts at its edge.
+    const r = Math.min(w, h) / 2, band = Math.max(5, r * 0.42);
+    const map = `<svg xmlns="${SVG_NS}" width="${w}" height="${h}">` +
+      '<defs><linearGradient id="x"><stop stop-color="#f00"/><stop offset="1" stop-color="#000"/></linearGradient>' +
+      '<linearGradient id="y" x2="0" y2="1"><stop stop-color="#0f0"/><stop offset="1" stop-color="#000"/></linearGradient></defs>' +
+      `<rect width="${w}" height="${h}" fill="#000"/>` +
+      `<rect width="${w}" height="${h}" rx="${r}" fill="url(#x)"/>` +
+      `<rect width="${w}" height="${h}" rx="${r}" fill="url(#y)" style="mix-blend-mode:screen"/>` +
+      `<rect x="${band}" y="${band}" width="${w - band * 2}" height="${h - band * 2}" rx="${Math.max(0, r - band)}" fill="#808000" style="filter:blur(${band * 0.55}px)"/></svg>`;
+    let f = document.getElementById(id);
+    if (!f) {
+      f = document.createElementNS(SVG_NS, 'filter');
+      f.id = id;
+      f.setAttribute('color-interpolation-filters', 'sRGB');
+      f.innerHTML = '<feImage result="map" preserveAspectRatio="none"/><feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G"/>';
+      lensDefs.appendChild(f);
+    }
+    ['x', 'y'].forEach(k => f.setAttribute(k, 0));
+    f.setAttribute('filterUnits', 'userSpaceOnUse');
+    f.setAttribute('width', w); f.setAttribute('height', h);
+    const img = f.firstChild;
+    img.setAttribute('x', 0); img.setAttribute('y', 0);
+    img.setAttribute('width', w); img.setAttribute('height', h);
+    img.setAttribute('href', 'data:image/svg+xml,' + encodeURIComponent(map));
+    f.lastChild.setAttribute('scale', strength);
+    el.style.backdropFilter = `url(#${id}) blur(0.6px) saturate(1.7) brightness(1.06)`;
+  };
+
+  // Slide a lens over `target` (or fade it out when there is none)
+  const moveLens = (lens, target, id) => {
+    if (!target || !target.offsetWidth) { lens.classList.remove('is-placed'); lens._at = null; return; }
+    const moved = lens._at && lens._at !== target;
+    if (!lens._at) lens.classList.remove('is-ready');   // appear in place rather than flying in
+    lens._at = target;
+    lens.style.width = `${target.offsetWidth}px`;
+    lens.style.transform = `translateX(${target.offsetLeft}px)`;
+    lens.classList.add('is-placed');
+    requestAnimationFrame(() => requestAnimationFrame(() => lens.classList.add('is-ready')));
+    // Size the refraction for where the lens is heading, once the layout has settled
+    setTimeout(() => refract(lens, id, 14), 0);
+    // Squeeze while travelling, overshoot on landing, then wobble to rest
+    if (moved && !reduce && lens.animate) {
+      lens.animate(
+        { scale: ['1 1', '1.16 0.76', '0.92 1.1', '1.04 0.96', '0.99 1.01', '1 1'], offset: [0, 0.28, 0.6, 0.78, 0.9, 1] },
+        { duration: 680, easing: 'ease-out' }
+      );
+    }
+  };
+
+  // Language switch
+  const langLens = $('.lang .tab-lens');
+  const placeLang = () => moveLens(langLens, $('.lang button[aria-pressed="true"]'), 'lens-lang');
+
+  // Main nav: the lens rests on the section you are reading and follows the pointer on hover
+  const nav = $('.top__nav');
+  const navLens = $('.tab-lens', nav);
+  const navLinks = $$('a', nav);
+  let navHover = null, navCurrent = null;
+  const placeNav = () => {
+    const at = navHover || navCurrent;
+    navLinks.forEach(a => a.classList.toggle('is-current', a === at));
+    moveLens(navLens, at, 'lens-nav');
+  };
+  navLinks.forEach(a => {
+    ['pointerenter', 'focus'].forEach(type => a.addEventListener(type, () => { navHover = a; placeNav(); }));
+    a.addEventListener('blur', () => { navHover = null; placeNav(); });
+  });
+  nav.addEventListener('pointerleave', () => { navHover = null; placeNav(); });
+  const spyNav = () => {
+    const mid = innerHeight * 0.45;
+    let cur = null;
+    navLinks.forEach(a => {
+      const sec = $(a.getAttribute('href'));
+      if (!sec) return;
+      const r = sec.getBoundingClientRect();
+      if (r.top <= mid && r.bottom > mid) cur = a;
+    });
+    if (cur !== navCurrent) { navCurrent = cur; placeNav(); }
+  };
+  addEventListener('scroll', spyNav, { passive: true });
+
+  const placeLenses = () => { placeLang(); placeNav(); };
+  afterLang.push(placeLenses);
+  addEventListener('resize', placeLenses);
+  addEventListener('load', () => {
+    spyNav();
+    placeLenses();
+    const cueLens = $('.hero__cue i');
+    if (cueLens) refract(cueLens, 'lens-cue', 26);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeLenses);
+
   /* ---------- Marquees: repeat items to fill, then double for a seamless loop ---------- */
   $$('[data-marquee]').forEach(track => {
     const originals = [...track.children];
