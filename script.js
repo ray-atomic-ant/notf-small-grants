@@ -128,6 +128,12 @@
     a.addEventListener('blur', () => { navHover = null; placeNav(); });
   });
   nav.addEventListener('pointerleave', () => { navHover = null; placeNav(); });
+  // Home goes to the framed opening view (image card, headline and buttons), not the very top
+  $('a[href="#home"]', nav).addEventListener('click', e => {
+    e.preventDefault();
+    const home = $('#home');
+    scrollTo({ top: Math.max(0, home.offsetTop + home.offsetHeight - innerHeight), behavior: 'smooth' });
+  });
   const spyNav = () => {
     const mid = innerHeight * 0.45;
     let cur = null;

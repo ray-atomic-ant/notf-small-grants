@@ -19,7 +19,8 @@
   const REC_LEVEL = 0.55;   // loudness of the recording (0 to 1)
 
   let muted = false;
-  try { muted = localStorage.getItem('notf-sound') === 'off'; } catch (e) {}
+  // The mute choice is not remembered: every visit starts with the sound on
+  try { localStorage.removeItem('notf-sound'); } catch (e) {}
   let ctx = null, master = null, built = false, suspendTimer = 0;
 
   const atTop = () => scrollY < TOP_ZONE;
@@ -205,7 +206,6 @@
     if (!btn.contains(e.target)) { unlock(); return; }
     if (state() === 'on') muted = true;
     else { muted = false; unlock(); }
-    try { localStorage.setItem('notf-sound', muted ? 'off' : 'on'); } catch (err) {}
     update();
   });
   ['keydown', 'pointerdown', 'mousedown', 'touchend'].forEach(type =>

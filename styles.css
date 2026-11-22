@@ -81,7 +81,7 @@ a.btn:hover { transform: translateY(-2px); }
 .top.is-hidden { transform: translateY(-110%); }
 .top__logo { position: relative; display: block; transform-origin: left center; transform: translate3d(var(--lx, 0px), var(--ly, 0px), 0) scale(var(--ls, 1)); will-change: transform; }
 .top__logo img { width: clamp(96px, 8.6vw, 128px); height: auto; }
-.top__right { position: relative; display: flex; align-items: center; gap: 10px; opacity: var(--bar, 1); }
+.top__right { position: relative; display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); opacity: var(--bar, 1); }
 .top__nav { display: flex; }
 .top__nav a { position: relative; z-index: 1; text-decoration: none; font-size: 0.82rem; font-weight: 500; line-height: 1.2; padding: 8px 14px; border-radius: 999px; color: rgba(44, 43, 50, 0.6); transition: color 0.3s; }
 .top__nav a:hover, .top__nav a.is-current { color: var(--ink); }
@@ -126,12 +126,12 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 @keyframes ward-in { from { transform: translateY(110%); opacity: 0; } }
 .hero__btns { display: flex; gap: 8px; }
 /* ---------- Liquid glass ----------
-   A thick lens: bright rim, soft inner shading, and two glints (one rainbow, one white)
+   A thick lens: bright rim, soft inner shading, and two glints in the warm brand colours (rust, yellow, cream)
    that orbit the edge. script.js adds real refraction of whatever is behind it in
    Chromium browsers; elsewhere the lens falls back to a frosted blur. */
 @property --glint { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 .glass { isolation: isolate; background: linear-gradient(160deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04) 46%, rgba(255, 255, 255, 0.16)); -webkit-backdrop-filter: blur(7px) saturate(1.6); backdrop-filter: blur(7px) saturate(1.6); box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(255, 255, 255, 0.4), inset 0 0 9px 2px rgba(255, 255, 255, 0.24), inset 0 -11px 14px -9px rgba(20, 30, 16, 0.22), 0 6px 18px rgba(20, 30, 16, 0.26), 0 1px 3px rgba(20, 30, 16, 0.28); }
-.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; background: conic-gradient(from var(--glint), transparent 0 7%, rgba(255, 110, 110, 0.9) 10%, rgba(255, 226, 120, 0.95) 13%, rgba(120, 255, 190, 0.9) 16%, rgba(120, 170, 255, 0.95) 19%, rgba(205, 135, 255, 0.8) 22%, transparent 26% 56%, rgba(255, 255, 255, 0.95) 61%, rgba(160, 222, 255, 0.8) 65%, transparent 70% 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: glint 7s linear infinite; }
+.glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; background: conic-gradient(from var(--glint), transparent 0 7%, #C5562C 10.5%, #FAB52A 14.5%, #FFEFD6 18%, #FAB52A 21%, #C5562C 24%, transparent 27% 56%, #FFEFD6 60%, #FAB52A 64%, #C5562C 67%, transparent 71% 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: glint 7s linear infinite; }
 @keyframes glint { to { --glint: 360deg; } }
 
 /* Glass finish for buttons: each keeps its own colour and gains a lens-like sheen, a bright
@@ -139,7 +139,7 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 .btn, .seg button[aria-checked="true"] { position: relative; isolation: isolate; }
 .btn, .js .sound, .seg button[aria-checked="true"] { background-image: linear-gradient(168deg, rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0) 44%, rgba(255, 255, 255, 0.14)); box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.62), inset 0 -2px 3px rgba(255, 255, 255, 0.22), inset 0 0 8px 1px rgba(255, 255, 255, 0.14), inset 0 -10px 12px -9px rgba(20, 30, 16, 0.26), 0 6px 16px rgba(20, 30, 16, 0.18), 0 1px 3px rgba(20, 30, 16, 0.2); }
 .btn--ghost { -webkit-backdrop-filter: blur(8px) saturate(1.5); backdrop-filter: blur(8px) saturate(1.5); }
-.btn::before, .js .sound::before, .seg button[aria-checked="true"]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; background: conic-gradient(from var(--glint), transparent 0 7%, rgba(255, 110, 110, 0.9) 10%, rgba(255, 226, 120, 0.95) 13%, rgba(120, 255, 190, 0.9) 16%, rgba(120, 170, 255, 0.95) 19%, rgba(205, 135, 255, 0.8) 22%, transparent 26% 56%, rgba(255, 255, 255, 0.95) 61%, rgba(160, 222, 255, 0.8) 65%, transparent 70% 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: glint 9s linear infinite; }
+.btn::before, .js .sound::before, .seg button[aria-checked="true"]::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 2px; pointer-events: none; background: conic-gradient(from var(--glint), transparent 0 7%, #C5562C 10.5%, #FAB52A 14.5%, #FFEFD6 18%, #FAB52A 21%, #C5562C 24%, transparent 27% 56%, #FFEFD6 60%, #FAB52A 64%, #C5562C 67%, transparent 71% 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); animation: glint 9s linear infinite; }
 .btn::before { inset: -2px; }
 .chip { box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.6), inset 0 -8px 10px -8px rgba(20, 30, 16, 0.2), 0 3px 10px rgba(20, 30, 16, 0.12); }
 
