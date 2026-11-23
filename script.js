@@ -335,7 +335,6 @@
 
   /* ---------- Grant ruler ---------- */
   const grantNumber = $('[data-grant-number]');
-  const counters = $$('[data-count]').map(el => ({ el, from: +el.dataset.from, to: +el.dataset.to, last: null }));
   const ruler = $('.ruler');
   const rulerMarker = $('.ruler__marker');
   const rulerLabel = $('[data-ruler-label]');
@@ -405,10 +404,6 @@
         grantNumber.textContent = fmt.format(v);
         rulerLabel.textContent = v >= 100000 ? `₹${+(v / 100000).toFixed(2)}L` : `₹${v / 1000}k`;
       }
-      counters.forEach(c => {
-        const n = Math.round(c.from + (c.to - c.from) * t);
-        if (n !== c.last) { c.last = n; c.el.textContent = n; }
-      });
       stages.forEach((el, i) => el.classList.toggle('is-on', t >= i / 3 - 0.02));
       rulerMarker.style.transform = `translate3d(0, ${(1 - t) * ruler.offsetHeight}px, 0)`;
     },
