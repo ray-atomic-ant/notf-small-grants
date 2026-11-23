@@ -346,6 +346,7 @@
   /* ---------- Hero refs ---------- */
   const heroCard = $('.hero__card');
   const heroImg = $('img', heroCard);
+  const heroWide = $('.hero__wide', heroCard);
   const heroHeadline = $('.hero__headline');
   const heroBelow = $('.hero__below');
   const heroCue = $('.hero__cue');
@@ -366,6 +367,12 @@
       const bottom = stage.offsetHeight - t - heroProbe.offsetHeight;
       heroCard.style.clipPath = `inset(${e * t}px ${e * side}px ${e * bottom}px ${e * side}px round ${e * 18}px)`;
       heroImg.style.transform = `translate3d(0, ${-e * 9}vh, 0)`;
+      // The wide picture tracks the shrinking frame and takes over from the opening picture
+      heroWide.style.left = `${e * side}px`;
+      heroWide.style.top = `${e * t}px`;
+      heroWide.style.width = `${stage.offsetWidth - e * side * 2}px`;
+      heroWide.style.height = `${stage.offsetHeight - e * (t + bottom)}px`;
+      heroWide.style.opacity = clamp((e - 0.15) / 0.6);
       const h = out(clamp((p - 0.3) / 0.5));
       heroHeadline.style.transform = `translate3d(0, ${(1 - h) * (bottom + heroHeadline.offsetHeight * 1.2)}px, 0)`;
       const b = clamp((p - 0.55) / 0.25);
@@ -376,7 +383,7 @@
       [heroCue, heroSound].forEach(b => { b.style.opacity = cue; b.style.pointerEvents = cue > 0.5 ? '' : 'none'; b.tabIndex = cue > 0.5 ? 0 : -1; });
       // Logo travels from top-centre (on the image) to the top-left of the header bar
       const w = logo.offsetWidth;
-      const s = 1 + (1 - e) * 0.55;
+      const s = 1 + (1 - e) * 0.705;   // logo on the opening image is 1.705x its header size
       top.style.setProperty('--bar', e);
       top.style.setProperty('--ls', s);
       top.style.setProperty('--lx', `${(1 - e) * (innerWidth / 2 - logo.offsetLeft - (w * s) / 2)}px`);

@@ -8,15 +8,17 @@
   <meta property="og:title" content="NoTF BLR Small Grants | The fix is local">
   <meta property="og:description" content="Neighbourhood fixes, funded in Bengaluru and shared with the world.">
   <meta property="og:image" content="images/hero-alt.jpg">
-  <link rel="icon" href="images/favicon.svg?v=15" type="image/svg+xml">
-  <link rel="icon" href="images/favicon-32.png?v=15" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="images/favicon-180.png?v=15">
+  <!-- Same favicon as notf.in -->
+  <link rel="icon" href="images/favicon.ico?v=26" type="image/x-icon">
+  <link rel="icon" href="images/favicon-16.png?v=26" type="image/png" sizes="16x16">
+  <link rel="icon" href="images/favicon-32.png?v=26" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="images/favicon-180.png?v=26" sizes="180x180">
   <!-- Instrument Sans for Latin text, Noto Sans Kannada for Kannada -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;700&family=Noto+Sans+Kannada:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="images/hero.jpg?v=14">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="preload" as="image" href="images/hero.jpg?v=26">
+  <link rel="stylesheet" href="styles.css?v=26">
 </head>
 <body>
   <a class="skip" href="#about">Skip to content</a>
@@ -46,8 +48,8 @@
   <!-- Floating Apply button (asset swaps white/rust by background) -->
   <a class="apply-fab" href="#apply" aria-label="Apply now">
     <span class="apply-fab__in">
-      <img class="apply-fab__white" src="images/apply-white.svg?v=14" alt="" width="250" height="130">
-      <img class="apply-fab__rust" src="images/apply-rust.svg?v=14" alt="" width="250" height="130">
+      <img class="apply-fab__white" src="images/apply-white.svg?v=26" alt="" width="250" height="130">
+      <img class="apply-fab__rust" src="images/apply-rust.svg?v=26" alt="" width="250" height="130">
     </span>
   </a>
 
@@ -57,7 +59,8 @@
       <div class="hero__stage">
         <div class="hero__probe" aria-hidden="true"></div>
         <div class="hero__card">
-          <img src="images/hero.jpg?v=14" alt="Illustration of a Bengaluru neighbourhood street with a park, flower stall, bus stop and cycle lane" fetchpriority="high">
+          <img src="images/hero.jpg?v=26" alt="Illustration of a Bengaluru neighbourhood street with a park, flower stall, bus stop and cycle lane" fetchpriority="high">
+          <img class="hero__wide" src="images/hero-wide.jpg?v=26" alt="">
           <h1 class="hero__headline" data-i18n="hero.h1">The fix is local</h1>
         </div>
         <div class="hero__below">
@@ -76,6 +79,7 @@
     <section class="about" id="about" data-scrub="about">
       <div class="about__stage">
         <p class="eyebrow eyebrow--light" data-i18n="about.eyebrow">About</p>
+        <h2 class="about__title" data-i18n="about.title">Small Grants Program</h2>
         <p class="about__text" data-words data-i18n="about.text">Neighbourhood fixes, funded in Bengaluru and shared with the world. Small, short-term grants for people already solving neighbourhood problems, who just need some help to get across the finish line.</p>
       </div>
     </section>
@@ -117,6 +121,11 @@
       <div class="wrap who__head">
         <p class="eyebrow" data-i18n="who.eyebrow">Who it's for</p>
         <h2 data-i18n="who.h2">For people already fixing <em>their corner</em> of Bengaluru.</h2>
+        <ul class="who__themes" aria-label="Themes">
+          <li data-i18n="theme.1">Environment</li>
+          <li data-i18n="theme.2">Public spaces</li>
+          <li data-i18n="theme.3">Community wellbeing</li>
+        </ul>
       </div>
       <div class="marquee">
         <div class="marquee__row marquee__row--left">
@@ -295,7 +304,8 @@
         <h2 data-i18n="cta.h2">Ready to finish your fix?</h2>
         <p data-i18n="cta.p">The fix is local. The idea travels. If you're already working on a neighbourhood fix and just need a push across the finish line, we'd love to hear from you.</p>
         <div class="cta__btns">
-          <span class="btn btn--cream" aria-disabled="true" data-i18n="cta.soon">Form opens soon</span>
+          <!-- No application form link yet: for now this opens an email to the programme address. Swap the href for the form URL when it exists. -->
+          <a class="btn btn--cream" href="mailto:notf.blr@socratusfoundation.in?subject=Small%20Grants%20application" data-i18n="how.apply">Apply now</a>
           <a class="btn btn--ghost" href="#faq" data-i18n="cta.faq">Read the FAQs</a>
         </div>
       </div>
@@ -316,8 +326,8 @@
     <p class="wrap foot__legal">© 2026 Neighbourhoods of the Future · Part of PDGI (People's Digital Goods &amp; Infrastructure)<br><a href="https://www.notf.in/" target="_blank" rel="noopener">notf.in</a> · <a href="mailto:notf.blr@socratusfoundation.in">notf.blr@socratusfoundation.in</a> · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></p>
   </footer>
 
-  <script src="i18n-kn.js?v=14"></script>
-  <script src="script.js?v=14"></script>
-  <script src="ambience.js?v=14"></script>
+  <script src="i18n-kn.js?v=26"></script>
+  <script src="script.js?v=26"></script>
+  <script src="ambience.js?v=26"></script>
 </body>
 </html>
