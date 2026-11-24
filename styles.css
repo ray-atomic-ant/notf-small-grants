@@ -388,7 +388,12 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 .foot nav a:hover { color: var(--rust); }
 .foot__credits { display: grid; gap: 6px; }
 .foot__support a { font-weight: 700; color: var(--rust); }
-.foot__legal { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(44, 43, 50, 0.15); opacity: 0.75; line-height: 1.8; }
+.foot__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(44, 43, 50, 0.15); }
+.foot__legal { opacity: 0.75; line-height: 1.8; }
+.foot__social { display: flex; gap: 10px; }
+.foot__social a { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(44, 43, 50, 0.25); color: var(--ink); transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s; }
+.foot__social a:hover, .foot__social a:focus-visible { background: var(--rust); border-color: var(--rust); color: #FFFAEC; transform: translateY(-2px); }
+.foot__social svg { width: 20px; height: 20px; }
 
 /* ---------- Kannada ---------- */
 html[lang="kn"] h1, html[lang="kn"] h2, html[lang="kn"] h3, html[lang="kn"] .about__text, html[lang="kn"] .marquee__track span, html[lang="kn"] .hero__line { letter-spacing: 0; line-height: 1.4; }
