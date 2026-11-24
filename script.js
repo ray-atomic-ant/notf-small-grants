@@ -354,6 +354,7 @@
   heroCue.addEventListener('click', () => scrollTo({ top: hero.offsetTop + hero.offsetHeight - innerHeight, behavior: 'smooth' }));
   const heroProbe = $('.hero__probe');
   const logo = $('.top__logo');
+  let logoScale = 1;
   const topRight = $('.top__right');
 
   const renderers = {
@@ -381,8 +382,9 @@
       const cue = 1 - clamp(p / 0.05);
       [heroCue, heroSound].forEach(b => { b.style.opacity = cue; b.style.pointerEvents = cue > 0.5 ? '' : 'none'; b.tabIndex = cue > 0.5 ? 0 : -1; });
       // Logo travels from top-centre (on the image) to the top-left of the header bar
-      const w = logo.offsetWidth;
+      const w = logo.offsetWidth / logoScale;   // header-size width, whatever size it is drawn at right now
       const s = 1 + (1 - e) * 0.705;   // logo on the opening image is 1.705x its header size
+      logoScale = s;
       top.style.setProperty('--bar', e);
       top.style.setProperty('--ls', s);
       top.style.setProperty('--lx', `${(1 - e) * (innerWidth / 2 - logo.offsetLeft - (w * s) / 2)}px`);

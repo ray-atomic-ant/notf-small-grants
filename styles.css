@@ -79,8 +79,9 @@ a.btn:hover { transform: translateY(-2px); }
 .top { position: fixed; inset: 0 0 auto 0; z-index: 50; height: var(--head-h); display: flex; align-items: center; justify-content: space-between; padding-inline: var(--cs); transition: transform 0.45s cubic-bezier(.2,.8,.2,1); }
 .top::before { content: ""; position: absolute; inset: 0; background: var(--paper); border-bottom: 1px solid rgba(44, 43, 50, 0.12); opacity: var(--bar, 1); }
 .top.is-hidden { transform: translateY(-110%); }
-.top__logo { position: relative; display: block; transform-origin: left center; transform: translate3d(var(--lx, 0px), var(--ly, 0px), 0) scale(var(--ls, 1)); will-change: transform; }
-.top__logo img { width: clamp(96px, 8.6vw, 128px); height: auto; }
+/* The logo is resized by its real width (not a zoom), so the SVG is redrawn sharp at every size */
+.top__logo { position: relative; display: block; flex: none; transform: translate(var(--lx, 0px), var(--ly, 0px)); }
+.top__logo img { display: block; width: calc(clamp(96px, 8.6vw, 128px) * var(--ls, 1)); height: auto; }
 .top__right { position: relative; display: flex; align-items: center; gap: clamp(14px, 2vw, 28px); opacity: var(--bar, 1); }
 .top__nav { display: flex; }
 .top__nav a { position: relative; z-index: 1; text-decoration: none; font-size: 0.82rem; font-weight: 500; line-height: 1.2; padding: 8px 14px; border-radius: 999px; color: rgba(44, 43, 50, 0.6); transition: color 0.3s; }
@@ -385,6 +386,8 @@ body.fab-on-dark .apply-fab__rust { opacity: 0; }
 .foot nav { display: flex; flex-wrap: wrap; gap: 6px 24px; }
 .foot nav a { text-decoration: none; font-weight: 500; }
 .foot nav a:hover { color: var(--rust); }
+.foot__credits { display: grid; gap: 6px; }
+.foot__support a { font-weight: 700; color: var(--rust); }
 .foot__legal { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(44, 43, 50, 0.15); opacity: 0.75; line-height: 1.8; }
 
 /* ---------- Kannada ---------- */
